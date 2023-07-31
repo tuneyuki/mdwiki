@@ -25,3 +25,100 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.markdown {
+  @apply text-gray-900 leading-normal break-words dark:text-white;
+}
+
+.markdown > * + * {
+  @apply mt-0 mb-4;
+}
+
+.markdown li + li {
+  @apply mt-1;
+}
+
+.markdown li > p + p {
+  @apply mt-6;
+}
+
+.markdown strong {
+  @apply font-semibold;
+}
+
+.markdown a {
+  @apply text-blue-600 font-semibold;
+}
+
+.markdown strong a {
+  @apply font-bold;
+}
+
+.markdown h1 {
+  @apply leading-tight border-b text-3xl font-semibold mb-4 mt-6 pt-2 pb-2 pl-2 border-l-4 dark:text-white dark:bg-gray-800;
+}
+
+.markdown h2 {
+  @apply leading-tight border-b text-2xl font-semibold mb-4 mt-6 pt-2 pb-2 pl-2 border-l-4 dark:text-white dark:bg-gray-800;
+}
+
+.markdown h3 {
+  @apply leading-snug text-lg font-semibold mb-4 mt-6 pl-2 pt-1 pb-1 border-l-2 dark:text-white dark:bg-gray-800;
+}
+
+.markdown h4 {
+  @apply leading-none text-base font-semibold mb-4 mt-6 dark:text-white;
+}
+
+.markdown h5 {
+  @apply leading-tight text-sm font-semibold mb-4 mt-6 dark:text-white;
+}
+
+.markdown h6 {
+  @apply leading-tight text-sm font-semibold text-gray-600 mb-4 mt-6 dark:text-white;
+}
+
+.markdown blockquote {
+  @apply text-base border-l-4 border-gray-300 pl-4 pr-4 text-gray-600 dark:text-white;
+}
+
+.markdown code {
+  @apply font-mono text-sm inline bg-gray-200 rounded px-1 py-5 dark:text-white;
+}
+
+.markdown pre {
+  @apply bg-gray-100 rounded p-4 dark:text-white;
+}
+
+.markdown pre code {
+  @apply block bg-transparent p-0 overflow-visible rounded-none dark:text-white;
+}
+
+.markdown ul {
+  @apply text-base pl-8 list-disc dark:text-white;
+}
+
+.markdown ol {
+  @apply text-base pl-8 list-decimal dark:text-white;
+}
+
+.markdown kbd {
+  @apply text-xs inline-block rounded border px-1 py-5 align-middle font-normal font-mono shadow dark:text-white;
+}
+
+.markdown table {
+  @apply text-base border-gray-600 dark:text-white;
+}
+
+.markdown th {
+  @apply border py-1 px-3 dark:text-white;
+}
+
+.markdown td {
+  @apply border py-1 px-3 dark:text-white;
+}
+
+/* Override pygments style background color. */
+.markdown .highlight pre {
+  @apply bg-gray-100 !important;
+}
