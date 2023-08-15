@@ -21,11 +21,15 @@ export default function RootLayout({
     <html lang="ja" className=''>
       <body className={inter.className}>
         <main className={`flex h-screen w-screen flex-col text-sm text-white dark:text-white ${lightMode}`}>
-          <Navbar />
-          <div className="flex h-full w-full">
+          <div className='h-16'>
+            <Navbar />
+          </div>
+          <div id="child" className="flex w-full h-full">
             {children}
           </div>
-          <Footer />
+          <div className='h-8 bottom-0'>
+            <Footer />
+          </div>
         </main>
       </body>
     </html>

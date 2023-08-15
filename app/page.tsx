@@ -3,7 +3,7 @@ import Sidebar from "./components/sidebar"
 import Content from "./components/content"
 
 import HomeContext from "./home.context"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const sidebarList = [
   { title: "Dashboard" },
@@ -31,7 +31,9 @@ const mainList = [
 
 const Home: React.FC = () => {
 
-  const [ title, setTitle ] = useState('Main')
+  const [ title, setTitle ] = useState('')
+  const [ content, setContent ] = useState("")
+  const [ isEditing, setIsEditing ] = useState(false)
   
   // const [current, setCurrent] = useState<string>('Main');
   // const [page, setPage] = useState<{title: string, content: string}>({ title: "Sign Up"  , content: "This is Sign Up" });
@@ -40,6 +42,23 @@ const Home: React.FC = () => {
   //   setCurrent(value)
   // }
 
+  useEffect(() => {
+    fetch(`http://localhost:3000/api?dbName=mongodum`, {
+      method: 'GET',
+    }).then((response) => {
+      if(!response.ok) {
+        // setContent('No Result')
+        throw new Error(`${response.status} ${response.statusText}`)
+      }
+      // setContent('No Result')
+      return response.json()
+    }).then((data) => {
+      // console.log(data)
+      if(data) {
+        // setContent(data.content)
+      }
+    })
+  }, [])
   // useEffect(() => {
   //   // console.log(current)
   //   // currentの存在チェックし、存在する場合は該当のコンテンツをセット
@@ -62,18 +81,17 @@ const Home: React.FC = () => {
   
   return (
     <HomeContext.Provider
-      value={{title, setTitle}}
+      value={{title, setTitle, content, setContent, isEditing, setIsEditing}}
     >
 
-      <Sidebar 
-        itemList={sidebarList}
-      />
-
-      <Content
-        {...data}        
-      />
-
-
+      <aside id="default-sidebar" className="w-48 h-full" aria-label="Sidebar">
+        <Sidebar 
+          itemList={sidebarList}
+        />
+      </aside>
+      <div className="h-full w-full">
+      <Content />
+      </div>
     </HomeContext.Provider>
   )
 }

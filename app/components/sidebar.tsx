@@ -13,11 +13,31 @@ type Props = {
 export default function Sidebar ({ itemList }: Props) {
 
   const { title, setTitle } = useContext(HomeContext)
+  const { content, setContent } = useContext(HomeContext)
+  const { isEditing, setIsEditing } = useContext(HomeContext)
 
 
   function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+    setIsEditing(false)
     const { value } = event.currentTarget;
-    setTitle(value)
+    if( title != value ){
+      setTitle(value)
+      fetch(`http://localhost:3000/api?dbName=mongodum&title=${value}`, {
+        method: 'GET',
+      }).then((response) => {
+        if(!response.ok) {
+          // setContent('No Result')
+          throw new Error(`${response.status} ${response.statusText}`)
+        }
+        // setContent('No Result')
+        return response.json()
+      }).then((data) => {
+        // console.log(data)
+        if(data) {
+          setContent(data.content)
+        }
+      })
+    }
   }
 
   // itemList.map((item) => {
@@ -27,10 +47,9 @@ export default function Sidebar ({ itemList }: Props) {
 
   return (
     <>
-      <aside id="default-sidebar" className="fixed left-0 z-40 w-64 h-screen" aria-label="Sidebar">
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div className="h-full px-3 py-4 bg-gray-50 dark:bg-gray-800">
             <ul className="space-y-2 font-medium">
-              {itemList.map((item, index) => (
+              {itemList.map((item) => (
                 <li
                   key={item.title}
                 >
@@ -61,7 +80,6 @@ export default function Sidebar ({ itemList }: Props) {
               </li> */}
             </ul>
         </div>
-      </aside>
     </>
   )
 }

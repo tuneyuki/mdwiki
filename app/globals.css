@@ -87,7 +87,7 @@ body {
 }
 
 .markdown pre {
-  @apply bg-gray-100 rounded p-4 dark:text-white;
+  @apply bg-gray-100 rounded p-4 dark:text-gray-900;
 }
 
 .markdown pre code {
@@ -111,7 +111,7 @@ body {
 }
 
 .markdown th {
-  @apply border py-1 px-3 dark:text-white;
+  @apply border py-1 px-3 dark:text-white bg-blue-900;
 }
 
 .markdown td {
