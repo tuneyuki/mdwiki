@@ -179,12 +179,12 @@ export default function Home() {
                 </ReactMarkdown>
               </div>
               <div className="absolute top-0 right-0 pt-2 px-2 flex flex-row-reverse">
-                <button className="bg-slate-600 hover:bg-slate-500 active:bg-slate-300 rounded-full p-2 border-2 mx-2">
+                {/* <button className="bg-slate-600 hover:bg-slate-500 active:bg-slate-300 rounded-full p-2 border-2 mx-2">
                   <IconEraser size={20} />
                 </button>
                 <button className="bg-slate-600 hover:bg-slate-500 active:bg-slate-300 rounded-full p-2 border-2 mx-2">
                   <IconDownload size={20} />
-                </button>
+                </button> */}
                 <button
                   onClick={() => setEditingContent(true)}
                   className="bg-slate-600 hover:bg-slate-500 active:bg-slate-300 rounded-full p-2 border-2 mx-2"
@@ -216,9 +216,9 @@ export default function Home() {
                 >
                   <IconCornerDownLeft size={20} />
                 </button>
-                <button className="bg-slate-600 hover:bg-slate-800 active:bg-slate-600 rounded-full p-2 border-2 mx-2">
+                {/* <button className="bg-slate-600 hover:bg-slate-800 active:bg-slate-600 rounded-full p-2 border-2 mx-2">
                   <IconEye size={20} />
-                </button>
+                </button> */}
               </div>
             </div>
           )}
