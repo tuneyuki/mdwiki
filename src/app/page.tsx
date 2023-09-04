@@ -1,14 +1,11 @@
 "use client";
 import { Document } from "@/types/document";
 import { saveDocuments, loadDocuments } from "@/utils/localstorage";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   IconEdit,
   IconCornerDownLeft,
-  IconWriting,
-  IconEye,
-  IconDownload,
-  IconEraser,
+  IconTrash,
 } from "@tabler/icons-react";
 import ReactMarkdown, { Options } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -37,6 +34,7 @@ export default function Home() {
     saveDocuments(updatedDocuments);
   };
 
+
   useEffect(() => {
     const localdata = loadDocuments();
     if (localdata) {
@@ -45,6 +43,10 @@ export default function Home() {
     setEditingTitle(false);
     setEditingContent(false);
   }, []);
+
+  useEffect(() => {
+    saveDocuments(documents)
+  }, [documents])
 
   function addNewDocument(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -101,6 +103,20 @@ export default function Home() {
     }
   }
 
+  function handleEditTitle(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+    const currentDoc = documents.find(doc => doc.id === e.currentTarget.value)
+    setCurrent(currentDoc);
+    setEditingTitle(true)
+  }
+
+
+  function handleDeleteTitle(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
+    setDocuments(documents.filter(doc => doc.id !== e.currentTarget.value))
+    if(current?.id === e.currentTarget.value){
+      setCurrent(undefined)
+    }
+  }
+
   return (
     <div className="flex h-screen">
       <aside className="w-1/5 h-full">
@@ -114,7 +130,9 @@ export default function Home() {
         </div>
         <div className="border-2"></div>
         <div className="p-2 max-h-screen">
-          {documents.map((item) => (
+          {!isEditingTitle && (
+            <>
+            {documents.map((item) => (
             <div className="w-full flex justify-between" key={item.id}>
               <button
                 className={`m-1 px-4 rounded-lg
@@ -128,12 +146,70 @@ export default function Home() {
               >
                 {item.title}
               </button>
+              <div className="flex flex-col justify-center">
+                <div className="flex">
+                <button
+                  className="hover:bg-slate-500 active:bg-slate-300 p-1"
+                  value={item.id}
+                  onClick={handleEditTitle}
+                >
+                  <IconEdit size={20}/>
+                </button>
+                <button
+                  className="hover:bg-slate-500 active:bg-slate-300 p-1"
+                  value={item.id}
+                  onClick={handleDeleteTitle}
+                >
+                  <IconTrash size={20}/>
+                </button>
+                </div>
+              </div>
             </div>
           ))}
+            </>
+          )} {/* !isEditingTitle */}
+
+          {isEditingTitle && (
+            <>
+              {documents.map((item) => (
+            <div className="w-full flex justify-between" key={item.id}>
+              {item.id === current?.id && (
+                <>
+                                <form onSubmit={handleSaveTitle}>
+                  <input
+                    className="m-1 w-full text-gray-800"
+                    value={current.title}
+                    onChange={handleTitleEdit}
+                  >
+                    </input>
+                </form>
+                <button
+                  onClick={handleSaveTitle}
+                >
+                  <IconCornerDownLeft size={20} />
+                </button>
+                </>
+
+              )}
+              {item.id !== current?.id &&(
+                            <button
+                            className={"m-1 px-4 rounded-lg bg-teal-950 hover:bg-teal-800 active:bg-teal-600"}
+                            onClick={handleDocSelect}
+                            value={item.id}
+                          >
+                            {item.title}
+                          </button>
+              )}
+
+            </div>
+              ))}
+            </>
+          )}
+
         </div>
       </aside>
       <main className="w-4/5 h-full border-2 flex flex-col">
-        {current && !isEditingTitle && (
+        {/* {current && !isEditingTitle && (
           <div className="flex justify-between bg-indigo-950">
             <div className="text-3xl font-bold p-2">{current?.title}</div>
             <div className="flex flex-col justify-center px-2">
@@ -165,7 +241,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-        )}
+        )} */}
 
         <div className="h-full">
           {current && !isEditingContent && (
@@ -189,7 +265,7 @@ export default function Home() {
                   onClick={() => setEditingContent(true)}
                   className="bg-slate-600 hover:bg-slate-500 active:bg-slate-300 rounded-full p-2 border-2 mx-2"
                 >
-                  <IconEdit size={20} />
+                  <IconEdit size={80} />
                 </button>
               </div>
             </div>
@@ -214,7 +290,7 @@ export default function Home() {
                   onClick={handleSaveContent}
                   className="bg-slate-600 hover:bg-slate-800 active:bg-slate-600 rounded-full p-2 border-2 mx-2"
                 >
-                  <IconCornerDownLeft size={20} />
+                  <IconCornerDownLeft size={80} />
                 </button>
                 {/* <button className="bg-slate-600 hover:bg-slate-800 active:bg-slate-600 rounded-full p-2 border-2 mx-2">
                   <IconEye size={20} />

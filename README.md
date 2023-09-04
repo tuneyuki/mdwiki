@@ -7,6 +7,10 @@
 
 ![image](./screen01.png)
 
+### ドキュメント保存・削除対応
+
+![image](./screen02.png)
+
 ## Demo
 
 * https://mdwiki-six.vercel.app/
