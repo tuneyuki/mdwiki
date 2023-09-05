@@ -2,7 +2,12 @@
 import { Document } from "@/types/document";
 import { saveDocuments, loadDocuments } from "@/utils/localstorage";
 import { useEffect, useState } from "react";
-import { IconEdit, IconCornerDownLeft, IconTrash } from "@tabler/icons-react";
+import {
+  IconEdit,
+  IconCornerDownLeft,
+  IconTrash,
+  IconBrandGithub,
+} from "@tabler/icons-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -208,20 +213,6 @@ export default function Home() {
         </div>
       </aside>
       <main className="w-4/5 h-full border-2 flex flex-col">
-        {/* {current && !isEditingTitle && (
-          <div className="flex justify-between bg-indigo-950">
-            <div className="text-3xl font-bold p-2">{current?.title}</div>
-            <div className="flex flex-col justify-center px-2">
-              <button
-                onClick={() => setEditingTitle(true)}
-                className="hover:bg-indigo-800 active:bg-indigo-600 rounded-md"
-              >
-                <IconEdit size={40} />
-              </button>
-            </div>
-          </div>
-   
-        )} */}
 
         <div className="h-full">
           {current && !isEditingContent && (
@@ -271,17 +262,31 @@ export default function Home() {
           {!current && (
             <div className="m-40 p-4 dark:bg-stone-700 bg-stone-200 rounded-xl shadow-lg dark:shadow-white">
               <h1 className="text-4xl font-bold text-center">MDWiki</h1>
-              <p className="mt-4 p-2 text-center text-2xl">Markdownで書けるシンプルなWiki</p>
+              <p className="mt-4 p-2 text-center text-2xl">
+                Markdownで書けるシンプルなメモ帳
+              </p>
+              <div className="flex justify-center">
+                <IconBrandGithub />
+                <a
+                  className="text-lg text-blue-500 hover:text-blue-700 active:text-blue-900 dark:text-blue400 dark:hover:text-blue-200 dark:active:text-blue-100 underline"
+                  href="https://github.com/tuneyuki/mdwiki"
+                >
+                  Github
+                </a>
+              </div>
               <p className="mt-4 p-5 text-xl">特徴</p>
               <ul className="pl-10">
-                <li>データはサーバには保存されない。</li>
+                <li>データはサーバには保存されないので安全。</li>
                 <li>自動でブラウザ内に保存される。</li>
-                <li>余計な機能は一切省略</li>
               </ul>
               <p className="mt-4 p-5 text-xl">使い方</p>
               <ul className="pl-10 mb-4">
-                <li>Add New Documentクリックで、新規ドキュメントが作成される。</li>
-                <li>タイトル、コンテンツそれぞれの編集ボタンクリックで編集ができる。</li>
+                <li>
+                  Add New Documentクリックで、新規ドキュメントが作成される。
+                </li>
+                <li>
+                  タイトル、コンテンツそれぞれの編集ボタンクリックで編集ができる。
+                </li>
                 <li>ドキュメントは自動で保存される。</li>
               </ul>
             </div>
