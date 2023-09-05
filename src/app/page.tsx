@@ -1,9 +1,9 @@
 "use client";
 import { Document } from "@/types/document";
 import { saveDocuments, loadDocuments } from "@/utils/localstorage";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { IconEdit, IconCornerDownLeft, IconTrash } from "@tabler/icons-react";
-import ReactMarkdown, { Options } from "react-markdown";
+import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import { v4 as uuidv4 } from "uuid";
@@ -122,7 +122,7 @@ export default function Home() {
       <aside className="w-1/5 h-full">
         <div className="p-2">
           <button
-            className="w-full bg-emerald-900 rounded-xl hover:bg-emerald-700 active:bg-emerald-500"
+            className="w-full rounded-xl bg-emerald-200 hover:bg-emerald-300 active:bg-emerald-500 dark:bg-emerald-900 dark:hover:bg-emerald-700 dark:active:bg-emerald-500"
             onClick={addNewDocument}
           >
             Add New Document
@@ -138,8 +138,8 @@ export default function Home() {
                     className={`m-1 px-4 rounded-lg
                ${
                  item.id === current?.id
-                   ? "bg-amber-950 hover:bg-amber-800 active:bg-amber-600"
-                   : "bg-teal-950 hover:bg-teal-800 active:bg-teal-600"
+                   ? "dark:bg-amber-950 dark:hover:bg-amber-800 dark:active:bg-amber-600 bg-amber-200 hover:bg-amber-300 active:bg-amber-400"
+                   : "dark:bg-teal-950 dark:hover:bg-teal-800 dark:active:bg-teal-600 bg-teal-200 hover:bg-teal-300 active:bg-teal-400"
                }`}
                     onClick={handleDocSelect}
                     value={item.id}
@@ -149,14 +149,14 @@ export default function Home() {
                   <div className="flex flex-col justify-center">
                     <div className="flex">
                       <button
-                        className="hover:bg-slate-500 active:bg-slate-300 p-1"
+                        className="rounded-sm p-1 dark:hover:bg-slate-500 dark:active:bg-slate-300 hover:bg-slate-300 active:bg-slate-400"
                         value={item.id}
                         onClick={handleEditTitle}
                       >
                         <IconEdit size={20} />
                       </button>
                       <button
-                        className="hover:bg-slate-500 active:bg-slate-300 p-1"
+                        className="rounded-sm p-1 dark:hover:bg-slate-500 dark:active:bg-slate-300 hover:bg-slate-300 active:bg-slate-400"
                         value={item.id}
                         onClick={handleDeleteTitle}
                       >
@@ -182,7 +182,10 @@ export default function Home() {
                           onChange={handleTitleEdit}
                         ></input>
                       </form>
-                      <button onClick={handleSaveTitle}>
+                      <button
+                        className="rounded-sm p-1 dark:hover:bg-slate-500 dark:active:bg-slate-300 hover:bg-slate-300 active:bg-slate-400"
+                        onClick={handleSaveTitle}
+                      >
                         <IconCornerDownLeft size={20} />
                       </button>
                     </>
@@ -190,7 +193,7 @@ export default function Home() {
                   {item.id !== current?.id && (
                     <button
                       className={
-                        "m-1 px-4 rounded-lg bg-teal-950 hover:bg-teal-800 active:bg-teal-600"
+                        "m-1 px-4 rounded-lg dark:bg-teal-950 dark:hover:bg-teal-800 dark:active:bg-teal-600 bg-teal-200 hover:bg-teal-300 active:bg-teal-400"
                       }
                       onClick={handleDocSelect}
                       value={item.id}
@@ -223,7 +226,7 @@ export default function Home() {
         <div className="h-full">
           {current && !isEditingContent && (
             <div className="relative">
-              <div className="p-2 bg-slate-800 rounded-lg markdown">
+              <div className="p-2 rounded-lg markdown dark:bg-slate-800 bg-slate-100">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {current.content}
                 </ReactMarkdown>
@@ -231,7 +234,7 @@ export default function Home() {
               <div className="absolute top-0 right-0 pt-2 px-2 flex flex-row-reverse">
                 <button
                   onClick={() => setEditingContent(true)}
-                  className="bg-slate-600 hover:bg-slate-500 active:bg-slate-300 rounded-full p-2 border-2 mx-2"
+                  className="rounded-full p-2 border-2 mx-2 dark:bg-slate-600 dark:hover:bg-slate-500 dark:active:bg-slate-300 bg-slate-300 hover:bg-slate-400 active:bg-slate-500"
                 >
                   <IconEdit size={80} />
                 </button>
@@ -240,9 +243,9 @@ export default function Home() {
           )}
           {current && isEditingContent && (
             <div className="relative">
-              <div className="p-2 h-full bg-slate-800 rounded-lg">
+              <div className="p-2 h-full rounded-lg dark:bg-slate-800 bg-slate-400">
                 <textarea
-                  className=" bg-gray-900 w-full text-gray-100"
+                  className="w-full p-1 dark:bg-gray-900 dark:text-gray-100 bg-gray-200 text-gray-800"
                   style={{
                     resize: "none",
                     overflow: "auto",
@@ -255,7 +258,7 @@ export default function Home() {
               <div className="absolute top-0 right-0 pt-2 px-2 flex flex-row-reverse">
                 <button
                   onClick={handleSaveContent}
-                  className="bg-slate-600 hover:bg-slate-800 active:bg-slate-600 rounded-full p-2 border-2 mx-2"
+                  className="rounded-full p-2 border-2 mx-2 dark:bg-slate-600 dark:hover:bg-slate-500 dark:active:bg-slate-300 bg-slate-300 hover:bg-slate-400 active:bg-slate-500"
                 >
                   <IconCornerDownLeft size={80} />
                 </button>
@@ -266,7 +269,7 @@ export default function Home() {
             </div>
           )}
           {!current && (
-            <div className="m-40 p-4 bg-stone-700 rounded-xl shadow-lg shadow-white">
+            <div className="m-40 p-4 dark:bg-stone-700 bg-stone-200 rounded-xl shadow-lg dark:shadow-white">
               <h1 className="text-4xl font-bold text-center">MDWiki</h1>
               <p className="mt-4 p-2 text-center text-2xl">Markdownで書けるシンプルなWiki</p>
               <p className="mt-4 p-5 text-xl">特徴</p>
