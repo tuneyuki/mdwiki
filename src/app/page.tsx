@@ -2,11 +2,7 @@
 import { Document } from "@/types/document";
 import { saveDocuments, loadDocuments } from "@/utils/localstorage";
 import { useEffect, useState, useRef } from "react";
-import {
-  IconEdit,
-  IconCornerDownLeft,
-  IconTrash,
-} from "@tabler/icons-react";
+import { IconEdit, IconCornerDownLeft, IconTrash } from "@tabler/icons-react";
 import ReactMarkdown, { Options } from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -34,7 +30,6 @@ export default function Home() {
     saveDocuments(updatedDocuments);
   };
 
-
   useEffect(() => {
     const localdata = loadDocuments();
     if (localdata) {
@@ -45,8 +40,8 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    saveDocuments(documents)
-  }, [documents])
+    saveDocuments(documents);
+  }, [documents]);
 
   function addNewDocument(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -103,17 +98,22 @@ export default function Home() {
     }
   }
 
-  function handleEditTitle(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
-    const currentDoc = documents.find(doc => doc.id === e.currentTarget.value)
+  function handleEditTitle(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void {
+    const currentDoc = documents.find(
+      (doc) => doc.id === e.currentTarget.value
+    );
     setCurrent(currentDoc);
-    setEditingTitle(true)
+    setEditingTitle(true);
   }
 
-
-  function handleDeleteTitle(e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
-    setDocuments(documents.filter(doc => doc.id !== e.currentTarget.value))
-    if(current?.id === e.currentTarget.value){
-      setCurrent(undefined)
+  function handleDeleteTitle(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void {
+    setDocuments(documents.filter((doc) => doc.id !== e.currentTarget.value));
+    if (current?.id === e.currentTarget.value) {
+      setCurrent(undefined);
     }
   }
 
@@ -132,80 +132,76 @@ export default function Home() {
         <div className="p-2 max-h-screen">
           {!isEditingTitle && (
             <>
-            {documents.map((item) => (
-            <div className="w-full flex justify-between" key={item.id}>
-              <button
-                className={`m-1 px-4 rounded-lg
+              {documents.map((item) => (
+                <div className="w-full flex justify-between" key={item.id}>
+                  <button
+                    className={`m-1 px-4 rounded-lg
                ${
                  item.id === current?.id
                    ? "bg-amber-950 hover:bg-amber-800 active:bg-amber-600"
                    : "bg-teal-950 hover:bg-teal-800 active:bg-teal-600"
                }`}
-                onClick={handleDocSelect}
-                value={item.id}
-              >
-                {item.title}
-              </button>
-              <div className="flex flex-col justify-center">
-                <div className="flex">
-                <button
-                  className="hover:bg-slate-500 active:bg-slate-300 p-1"
-                  value={item.id}
-                  onClick={handleEditTitle}
-                >
-                  <IconEdit size={20}/>
-                </button>
-                <button
-                  className="hover:bg-slate-500 active:bg-slate-300 p-1"
-                  value={item.id}
-                  onClick={handleDeleteTitle}
-                >
-                  <IconTrash size={20}/>
-                </button>
+                    onClick={handleDocSelect}
+                    value={item.id}
+                  >
+                    {item.title}
+                  </button>
+                  <div className="flex flex-col justify-center">
+                    <div className="flex">
+                      <button
+                        className="hover:bg-slate-500 active:bg-slate-300 p-1"
+                        value={item.id}
+                        onClick={handleEditTitle}
+                      >
+                        <IconEdit size={20} />
+                      </button>
+                      <button
+                        className="hover:bg-slate-500 active:bg-slate-300 p-1"
+                        value={item.id}
+                        onClick={handleDeleteTitle}
+                      >
+                        <IconTrash size={20} />
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              ))}
             </>
-          )} {/* !isEditingTitle */}
-
+          )}{" "}
+          {/* !isEditingTitle */}
           {isEditingTitle && (
             <>
               {documents.map((item) => (
-            <div className="w-full flex justify-between" key={item.id}>
-              {item.id === current?.id && (
-                <>
-                                <form onSubmit={handleSaveTitle}>
-                  <input
-                    className="m-1 w-full text-gray-800"
-                    value={current.title}
-                    onChange={handleTitleEdit}
-                  >
-                    </input>
-                </form>
-                <button
-                  onClick={handleSaveTitle}
-                >
-                  <IconCornerDownLeft size={20} />
-                </button>
-                </>
-
-              )}
-              {item.id !== current?.id &&(
-                            <button
-                            className={"m-1 px-4 rounded-lg bg-teal-950 hover:bg-teal-800 active:bg-teal-600"}
-                            onClick={handleDocSelect}
-                            value={item.id}
-                          >
-                            {item.title}
-                          </button>
-              )}
-
-            </div>
+                <div className="w-full flex justify-between" key={item.id}>
+                  {item.id === current?.id && (
+                    <>
+                      <form onSubmit={handleSaveTitle}>
+                        <input
+                          className="m-1 w-full text-gray-800"
+                          value={current.title}
+                          onChange={handleTitleEdit}
+                        ></input>
+                      </form>
+                      <button onClick={handleSaveTitle}>
+                        <IconCornerDownLeft size={20} />
+                      </button>
+                    </>
+                  )}
+                  {item.id !== current?.id && (
+                    <button
+                      className={
+                        "m-1 px-4 rounded-lg bg-teal-950 hover:bg-teal-800 active:bg-teal-600"
+                      }
+                      onClick={handleDocSelect}
+                      value={item.id}
+                    >
+                      {item.title}
+                    </button>
+                  )}
+                </div>
               ))}
             </>
           )}
-
         </div>
       </aside>
       <main className="w-4/5 h-full border-2 flex flex-col">
@@ -221,46 +217,18 @@ export default function Home() {
               </button>
             </div>
           </div>
-        )}
-        {current && isEditingTitle && (
-          <div className="flex justify-between bg-indigo-950">
-            <form className="w-full" onSubmit={handleSaveTitle}>
-              <input
-                className="text-3xl font-bold p-2 w-full text-gray-800"
-                value={current.title}
-                onChange={handleTitleEdit}
-              ></input>
-            </form>
-
-            <div className="flex flex-col justify-center px-2">
-              <button
-                onClick={handleSaveTitle}
-                className="hover:bg-indigo-800 active:bg-indigo-600 rounded-md"
-              >
-                <IconCornerDownLeft size={40} />
-              </button>
-            </div>
-          </div>
+   
         )} */}
 
         <div className="h-full">
           {current && !isEditingContent && (
             <div className="relative">
-
-              <div
-                className="p-2 bg-slate-800 rounded-lg markdown"
-              >
+              <div className="p-2 bg-slate-800 rounded-lg markdown">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {current.content}
                 </ReactMarkdown>
               </div>
               <div className="absolute top-0 right-0 pt-2 px-2 flex flex-row-reverse">
-                {/* <button className="bg-slate-600 hover:bg-slate-500 active:bg-slate-300 rounded-full p-2 border-2 mx-2">
-                  <IconEraser size={20} />
-                </button>
-                <button className="bg-slate-600 hover:bg-slate-500 active:bg-slate-300 rounded-full p-2 border-2 mx-2">
-                  <IconDownload size={20} />
-                </button> */}
                 <button
                   onClick={() => setEditingContent(true)}
                   className="bg-slate-600 hover:bg-slate-500 active:bg-slate-300 rounded-full p-2 border-2 mx-2"
@@ -272,7 +240,6 @@ export default function Home() {
           )}
           {current && isEditingContent && (
             <div className="relative">
-
               <div className="p-2 h-full bg-slate-800 rounded-lg">
                 <textarea
                   className=" bg-gray-900 w-full text-gray-100"
@@ -296,6 +263,24 @@ export default function Home() {
                   <IconEye size={20} />
                 </button> */}
               </div>
+            </div>
+          )}
+          {!current && (
+            <div className="m-40 p-4 bg-stone-700 rounded-xl shadow-lg shadow-white">
+              <h1 className="text-4xl font-bold text-center">MDWiki</h1>
+              <p className="mt-4 p-2 text-center text-2xl">Markdownで書けるシンプルなWiki</p>
+              <p className="mt-4 p-5 text-xl">特徴</p>
+              <ul className="pl-10">
+                <li>データはサーバには保存されない。</li>
+                <li>自動でブラウザ内に保存される。</li>
+                <li>余計な機能は一切省略</li>
+              </ul>
+              <p className="mt-4 p-5 text-xl">使い方</p>
+              <ul className="pl-10 mb-4">
+                <li>Add New Documentクリックで、新規ドキュメントが作成される。</li>
+                <li>タイトル、コンテンツそれぞれの編集ボタンクリックで編集ができる。</li>
+                <li>ドキュメントは自動で保存される。</li>
+              </ul>
             </div>
           )}
         </div>
