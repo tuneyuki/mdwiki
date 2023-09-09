@@ -5,10 +5,12 @@ import {
   IconEdit,
   IconCornerDownLeft,
   IconBrandGithub,
+  IconDownload,
 } from "@tabler/icons-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import { exportData } from '@/utils/export';
 
 const Content = () => {
   const { 
@@ -52,6 +54,12 @@ const Content = () => {
               className="rounded-full p-2 border-2 mx-2 dark:bg-slate-600 dark:hover:bg-slate-500 dark:active:bg-slate-300 bg-slate-300 hover:bg-slate-400 active:bg-slate-500"
             >
               <IconEdit size={80} />
+            </button>
+            <button
+              onClick={() => exportData(current.id)}
+              className="rounded-full p-2 border-2 mx-2 dark:bg-slate-600 dark:hover:bg-slate-500 dark:active:bg-slate-300 bg-slate-300 hover:bg-slate-400 active:bg-slate-500"
+            >
+              <IconDownload size={80} />
             </button>
           </div>
         </div>

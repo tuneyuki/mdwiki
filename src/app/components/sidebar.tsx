@@ -132,7 +132,7 @@ function Sidebar() {
           ))}
         </>
       )}{" "}
-      {/* !isEditingTitle */}
+      {/* タイトル編集中表示 */}
       {isEditingTitle && (
         <>
           {documents.map((item) => (
