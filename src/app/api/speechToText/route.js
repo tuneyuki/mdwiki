@@ -47,6 +47,7 @@ async function convertAudioToText(audioData) {
   })
   // Delete the temporary file
   fs.unlinkSync(tmpPath);
+
   // The API response contains the transcribed text
   const transcribedText = response.text;
   return transcribedText;

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>whisper sample</title>
+    <title>相談Bot</title>
     <meta charset="utf-8" />
   </head>
   <body>
     <div id="content">
+      <input type="text" id="apiKeyInput" placeholder="Enter your API key">
       <button id="start">Start</button>
       <div id="result"></div>
     </div>
@@ -14,6 +15,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad/dist/index.browser.js"></script>
     <script>
       let myvad;
+      let lastUserMessage = [];
+      let lastAssistantMessage;
+      let apiKey
+
       const startAudio = async (onRecorded) => {
         try {
           if (!myvad) {
@@ -52,7 +57,7 @@
         });
         XHR.open("POST", "https://api.openai.com/v1/audio/transcriptions");
         //XHR.setRequestHeader("Content-Type", "multipart/form-data"); これを書いたらサーバーエラーになる
-        XHR.setRequestHeader("Authorization", "Bearer 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");
+        XHR.setRequestHeader("Authorization", `Bearer ${apiKey}`);
 
         var formData = new FormData();
         formData.append("model", "whisper-1");
@@ -61,14 +66,55 @@
         XHR.send(formData);
       };
 
+      const callChatGPT = (text, callback) => {
+        const XHR = new XMLHttpRequest();
+        XHR.addEventListener("load", (event) => {
+          callback(JSON.parse(event.target.responseText)['choices'][0]['message']['content']);
+        });
+        XHR.addEventListener("error", (event) => {
+          alert("error");
+        });
+        XHR.open("POST", "https://api.openai.com/v1/chat/completions");
+        XHR.setRequestHeader("Content-Type", "application/json");
+        XHR.setRequestHeader("Authorization", `Bearer ${apiKey}`);
+        if(lastUserMessage.length > 0){
+          // console.log(lastUserMessage[lastUserMessage.length - 1])
+          // console.log(text)
+          XHR.send(JSON.stringify({
+            'model': 'gpt-3.5-turbo',
+            'temperature': 0.7,
+            'messages' : [
+              {"role": "system", "content": "あなたは包容力のある男性です。これから受け取る配偶者からのメッセージに対して、共感し、気の利いた回答を、簡潔に返してください。"},
+              {"role": "user", "content": lastUserMessage[lastUserMessage.length - 1]},
+              {"role": "assistant", "content": lastAssistantMessage},
+              {"role": "user", "content": text}
+            ]
+        }));
+        }else{
+          XHR.send(JSON.stringify({
+          'model': 'gpt-3.5-turbo',
+          'temperature': 0.7,
+          'messages' : [
+            {'role': 'system', 'content': 'あなたは包容力のある男性です。これから受け取る配偶者からのメッセージに対して、共感し、気の利いた回答を、簡潔に返してください。'},
+            {'role': 'user', 'content': text}
+          ]
+        }));
+        }
+
+      };
+
       document.addEventListener("DOMContentLoaded", function () {
         const recorded = (file) => {
           callTranscriptions(file, (text) => {
-            console.log(text);
             if (!text) return;
-            document.getElementById("result").innerHTML += text;
+            callChatGPT(text, (gpt) => { 
+              lastUserMessage.push(text);
+              lastAssistantMessage = gpt;
+              document.getElementById("result").innerHTML += gpt + "<br>";
+            })
           });
         };
+        const apiKeyInput = document.getElementById("apiKeyInput"); // テキスト入力フィールドを取得
 
         startButton = document.getElementById("start");
         startButton.addEventListener("click", () => {
@@ -79,6 +125,10 @@
             startButton.innerHTML = "Stop";
             startAudio(recorded);
           }
+        });
+        // 開始時にAPIキーを設定
+        apiKeyInput.addEventListener("change", () => {
+          apiKey = apiKeyInput.value;
         });
       });
     </script>
