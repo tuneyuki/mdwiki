@@ -4,7 +4,7 @@ import fs from 'fs';
 import { NextResponse } from "next/server";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_APIKEY,
+  apiKey: process.env.NEXT_PUBLIC_OPENAI_APIKEY,
 });
 
 // This function handles POST requests to the /api/speechToText route

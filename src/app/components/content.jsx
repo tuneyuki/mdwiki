@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Context from "../context";
 
 import {
@@ -6,8 +6,6 @@ import {
   IconCornerDownLeft,
   IconBrandGithub,
   IconDownload,
-  IconMicrophone,
-  IconMicrophoneOff,
 } from "@tabler/icons-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -15,6 +13,8 @@ import remarkGfm from "remark-gfm";
 import { Recording } from "./recording";
 import { OPENAI_APIKEY } from "@/utils/const";
 import { exportData } from "@/utils/export";
+
+
 
 const Content = () => {
   const {
@@ -98,13 +98,7 @@ const Content = () => {
                 <IconCornerDownLeft size={80} />
               </button>
               {OPENAI_APIKEY && (
-                <button
-                  onClick={handleRecording}
-                  className="rounded-full p-2 border-2 mx-2 dark:bg-slate-600 dark:hover:bg-slate-500 dark:active:bg-slate-300 bg-slate-300 hover:bg-slate-400 active:bg-slate-500"
-                >
-                  {recording && <IconMicrophoneOff size={80} />}
-                  {!recording && <IconMicrophone size={80} />}
-                </button>
+                <Recording />
               )}
             </div>
           </div>
