@@ -11,12 +11,15 @@
 
 ![image](./screen02.png)
 
+### 音声入力機能対応
+
+![image](./screen03.png)
+
 ## Demo
 
 * https://mdwiki-six.vercel.app/
 
-## Todo　List
 
-* ドキュメントの削除機能の実装
-* ドキュメントの保存機能の実装
-* ドキュメント編集時のプレビュー機能の実装
+## 音声入力のための準備
+
+* 環境変数 NEXT_PUBLIC_OPENAI_APIKEY に、OpenAIのAPIキーを設定すること

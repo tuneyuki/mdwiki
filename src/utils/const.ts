@@ -1,0 +1,1 @@
+export const OPENAI_APIKEY = process.env.NEXT_PUBLIC_OPENAI_APIKEY || '';
